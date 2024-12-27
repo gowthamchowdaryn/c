@@ -1,43 +1,30 @@
 #include <stdio.h>
-
 int removeDuplicates(int arr[], int n) {
-    if (n == 0 || n == 1) {
-        return n; // Array with 0 or 1 elements has no duplicates
-    }
-
-    int j = 0; // Pointer for the unique elements
-
-    // Traverse the array
+    int j = 0; 
     for (int i = 0; i < n - 1; i++) {
         if (arr[i] != arr[i + 1]) {
-            arr[j++] = arr[i];
+            arr[j] = arr[i];
+            j++;
         }
     }
-
-    // Include the last element as it won't be checked in the loop
-    arr[j++] = arr[n - 1];
-
-    return j; // Return the new size of the array
+    arr[j] = arr[n - 1];
+    j++;
+    return j;
 }
-
-void printArray(int arr[], int n) {
+int main() {
+    int arr[] = {1, 1, 2, 2, 3, 4, 4, 5}; // Input array
+    int n = sizeof(arr) / sizeof(arr[0]); // Size of the array
+    printf("Original array: ");
     for (int i = 0; i < n; i++) {
         printf("%d ", arr[i]);
     }
     printf("\n");
-}
-
-int main() {
-    int arr[] = {1, 1, 2, 2, 3, 4, 4, 5};
-    int n = sizeof(arr) / sizeof(arr[0]);
-
-    printf("Original array: ");
-    printArray(arr, n);
-
-    n = removeDuplicates(arr, n);
-
+    n = removeDuplicates(arr, n); // Remove duplicates
     printf("Array after removing duplicates: ");
-    printArray(arr, n);
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
 
     return 0;
 }
