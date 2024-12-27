@@ -1,0 +1,19 @@
+#include <stdio.h>
+int main() {
+    int arr[] = {3, 1, 2, 3, 4, 3, 5};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    int key = 3;
+    int count = 0;
+    printf("Original array: ");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+    for (int i = 0; i < size; i++) {
+        if (arr[i] != key) {
+            count++;
+        }
+    }
+    printf("Number of elements not equal to %d: %d\n", key, count);
+    return 0;
+}
