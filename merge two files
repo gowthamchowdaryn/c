@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_LENGTH 1000  // Maximum length for the strings
+
+// Function to read a string from a file
+void readStringFromFile(FILE *file, char *str) {
+    if (fgets(str, MAX_LENGTH, file) != NULL) {
+        // Remove the newline character, if it exists
+        int len = 0;
+        while (str[len] != '\0') {
+            len++;
+        }
+        if (str[len - 1] == '\n') {
+            str[len - 1] = '\0';
+        }
+    } else {
+        str[0] = '\0';  // If file is empty, return an empty string
+    }
+}
+
+// Function to merge two strings alternatively and write the result to file3
+void mergeStringsAndWriteToFile(char *str1, char *str2, FILE *file3) {
+    int i = 0, j = 0, k = 0;
+    char mergedStr[MAX_LENGTH * 2];  // Array to hold merged string
+
+    while (str1[i] != '\0' || str2[j] != '\0') {
+        if (str1[i] != '\0') {
+            mergedStr[k++] = str1[i++];
+        }
+        if (str2[j] != '\0') {
+            mergedStr[k++] = str2[j++];
+        }
+    }
+    mergedStr[k] = '\0';  // Null-terminate the merged string
+
+    // Write the merged string to file3
+    fputs(mergedStr, file3);
+}
+
+int main() {
+    FILE *file1, *file2, *file3;
+    char str1[MAX_LENGTH], str2[MAX_LENGTH];
+
+    // Open file1 for reading
+    file1 = fopen("file1.txt", "r");
+    if (file1 == NULL) {
+        printf("Error opening file1.txt\n");
+        return 1;
+    }
+
+    // Open file2 for reading
+    file2 = fopen("file2.txt", "r");
+    if (file2 == NULL) {
+        printf("Error opening file2.txt\n");
+        fclose(file1);
+        return 1;
+    }
+
+    // Open file3 for writing
+    file3 = fopen("file3.txt", "w");
+    if (file3 == NULL) {
+        printf("Error opening file3.txt\n");
+        fclose(file1);
+        fclose(file2);
+        return 1;
+    }
+
+    // Read strings from file1 and file2
+    readStringFromFile(file1, str1);
+    readStringFromFile(file2, str2);
+
+    // Merge the strings and write to file3
+    mergeStringsAndWriteToFile(str1, str2, file3);
+
+    // Close all files
+    fclose(file1);
+    fclose(file2);
+    fclose(file3);
+
+    printf("Strings have been merged and written to file3.txt\n");
+
+    return 0;
+}
