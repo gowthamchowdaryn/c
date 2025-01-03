@@ -1,0 +1,38 @@
+#include <stdio.h>
+void bestDaysToTrade(int prices[], int n, int *buy_day, int *sell_day) {
+    if (n < 2) {
+        *buy_day = -1;
+        *sell_day = -1; 
+        return;
+    }
+    int min_price = prices[0];
+    int min_day = 0;
+    int max_profit = 0;
+    *buy_day = 0;
+    *sell_day = 0;
+    for (int day = 1; day < n; day++) {
+        // Update the minimum price and day
+        if (prices[day] < min_price) {
+            min_price = prices[day];
+            min_day = day;
+        }
+        int profit = prices[day] - min_price;
+        if (profit > max_profit) {
+            max_profit = profit;
+            *buy_day = min_day;
+            *sell_day = day;
+        }
+    }
+}
+int main() {
+    int prices[] = {7, 1, 5, 3, 6, 4};
+    int n = sizeof(prices) / sizeof(prices[0]);
+    int buy_day, sell_day;
+    bestDaysToTrade(prices, n, &buy_day, &sell_day);
+    if (buy_day != -1 && sell_day != -1) {
+        printf("Buy on day %d, Sell on day %d\n", buy_day, sell_day);
+    } else {
+        printf("Not enough data to make a trade.\n");
+    }
+    return 0;
+}
